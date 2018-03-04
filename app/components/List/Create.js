@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import Messages from './Messages';
+import Messages from '../Messages';
 
-class Home extends React.Component {
+class ListCreate extends React.Component {
   render() {
     return (
       <div className="container-fluid">
@@ -11,9 +11,9 @@ class Home extends React.Component {
           <div className="col-sm-4">
             <div className="panel">
               <div className="panel-body">
-                <h3>My Lists</h3>
+                <h3>We will create lists here</h3>
                 <p>You have no lists yet</p>
-                <a href="/list/create" role="button" className="btn btn-default">Create New List</a>
+                <a href="/create" role="button" className="btn btn-default">Create New List</a>
               </div>
             </div>
           </div>
@@ -29,4 +29,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(ListCreate);

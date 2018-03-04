@@ -32,6 +32,7 @@ var contactController = require('./controllers/contact');
 
 // React and Server-Side Rendering
 var routes = require('./app/routes');
+var apiRoutes = require('./api/routes');
 var configureStore = require('./app/store/configureStore').default;
 
 var app = express();
@@ -71,7 +72,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
   req.isAuthenticated = function() {
-    var token = (req.headers.authorization && req.headers.authorization.split(' ')[1]) || req.cookies.token;
+    var token = (req.headers.authorization && req.headers.authorization.split(' ')[1]) || req.cookies.token || req.body.token || req.query.token;
+    console.log('token: ', token)
     try {
       return jwt.verify(token, process.env.TOKEN_SECRET);
     } catch (err) {
@@ -99,6 +101,8 @@ app.get('/unlink/:provider', userController.ensureAuthenticated, userController.
 app.post('/auth/twitter', userController.authTwitter);
 app.get('/auth/twitter/callback', userController.authTwitterCallback);
 
+app.use('/api', apiRoutes.router);
+
 // React server rendering
 app.use(function(req, res) {
   var initialState = {
@@ -106,8 +110,6 @@ app.use(function(req, res) {
     messages: {}
   };
 
-  console.log('is authed: ')
-  console.log(req.isAuthenticated())
   if (!req.user) {
     initialState['auth']['token'] = null;
   }
@@ -132,6 +134,7 @@ app.use(function(req, res) {
     }
   });
 });
+
 
 // Production error handler
 if (app.get('env') === 'production') {

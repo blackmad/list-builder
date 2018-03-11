@@ -276,6 +276,7 @@ exports.authTwitter = function(req, res) {
 
           user = new User({
             name: profile.name,
+            username: profile.screen_name,
             location: profile.location,
             picture: profile.profile_image_url_https,
             twitter: profile.id

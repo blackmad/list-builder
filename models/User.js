@@ -23,6 +23,7 @@ var userSchema = new mongoose.Schema({
   twitter: String,
   google: String,
   github: String,
+  username: String
 }, schemaOptions);
 
 userSchema.pre('save', function(next) {
@@ -35,6 +36,10 @@ userSchema.pre('save', function(next) {
     });
   });
 });
+
+userSchema.statics.findByUsername = function(username, cb) {
+  return this.findOne({ 'username': username }, cb);
+}
 
 userSchema.methods.comparePassword = function(password, cb) {
   bcrypt.compare(password, this.password, function(err, isMatch) {

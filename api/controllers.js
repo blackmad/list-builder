@@ -1,16 +1,42 @@
 var List     = require('../models/List');
+var User     = require('../models/User');
 
 exports.listCreateController = function(req, res) {
   console.log(req.isAuthenticated())
   console.log(req.user)
-    var list = new List();      // create a new instance of the Bear model
-    list.name = req.body.name;  // set the bears name (comes from the request)
+  var list = new List();
+  list.name = req.body.name;
+  list.userId = req.user.id;
 
-    // save the bear and check for errors
-    list.save(function(err) {
-        if (err)
-            res.send(err);
+  list.save(function(err) {
+    if (err)
+      res.send(err);
 
-        res.json({ message: 'List created!' });
-    });
-  }
+    res.json({ response: list });
+  });
+}
+
+exports.listViewController = function(req, res) {
+  const listId = req.params.id
+  console.log(listId);
+  List.findById(listId, function (err, list) {
+    res.json({ response: list });
+  });
+}
+
+exports.userListViewController = function(req, res) {
+  const username = req.params.username
+  const slug = req.params.slug
+
+  User.findByUsername(username, function (err, user) {
+    console.log(err)
+    console.log(user);
+    if (user === null)
+      res.status(404).json({error: 'user not found'})
+    else {
+      List.findByUserIdAndSlug(user._id, slug, function(err, list) {
+        res.json({ response: list });
+      })
+    }
+  })
+}

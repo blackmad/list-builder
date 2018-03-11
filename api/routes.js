@@ -26,3 +26,5 @@ router.get('/', function(req, res) {
 });
 
 router.route('/list/create').post(ensureAuthenticated, controllers.listCreateController)
+router.route('/list/:id').get(controllers.listViewController)
+router.route('/user/:username/list/:slug').get(controllers.userListViewController)

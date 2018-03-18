@@ -1,0 +1,1 @@
+curl -d "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJteS5kb21haW4uY29tIiwic3ViIjoiNWE5YjJiNmM2NmQzNDcIwMTI0MTI1LCJleHAiOjE1MjA3Mjg5MjV9.XwHMFDG5E8GEzNSA7_1FUHpunysZ83u0mmkqWD-6-hU" -d "name=test" -X POST http://localhost:3000/api/list/
